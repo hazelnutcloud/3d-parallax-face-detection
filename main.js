@@ -10,8 +10,8 @@ video.autoplay = true;
 let center = {};
 
 Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri("/static/ml-models"),
-  faceapi.nets.faceRecognitionNet.loadFromUri("/static/ml-models"),
+  faceapi.nets.tinyFaceDetector.loadFromUri("/ml-models"),
+  faceapi.nets.faceRecognitionNet.loadFromUri("/ml-models"),
 ])
   .then(startVideo)
   .catch(console.error);
@@ -94,9 +94,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const tick = () => {
   if (center.x && center.y) {
-    cameraParent.position.set(
-      camera.position.x + center.x * 4,
-      camera.position.y + center.y * 4
+    camera.position.set(
+      cameraParent.position.x + center.x * 4,
+      cameraParent.position.y + center.y * 4
     );
   }
 
