@@ -1,7 +1,7 @@
 import "./style.css";
 import * as faceapi from "face-api.js";
 import * as THREE from "three";
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const video = document.createElement("video");
 video.height = 1;
@@ -10,8 +10,8 @@ video.autoplay = true;
 let center = {};
 
 Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri("/assets/ml-models"),
-  faceapi.nets.faceRecognitionNet.loadFromUri("/assets/ml-models"),
+  faceapi.nets.tinyFaceDetector.loadFromUri("/static/ml-models"),
+  faceapi.nets.faceRecognitionNet.loadFromUri("/static/ml-models"),
 ])
   .then(startVideo)
   .catch(console.error);
@@ -50,15 +50,15 @@ const cube = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshStandardMaterial()
 );
-cube.rotation.y = Math.PI / 4
+cube.rotation.y = Math.PI / 4;
 scene.add(cube);
 
-const directionalLight = new THREE.DirectionalLight("#ffffff", "0.6")
-directionalLight.position.set(3, 4, 5)
-scene.add(directionalLight)
+const directionalLight = new THREE.DirectionalLight("#ffffff", "0.6");
+directionalLight.position.set(3, 4, 5);
+scene.add(directionalLight);
 
-const ambientLight = new THREE.AmbientLight("#ffffff", "0.5")
-scene.add(ambientLight)
+const ambientLight = new THREE.AmbientLight("#ffffff", "0.5");
+scene.add(ambientLight);
 
 const sizes = {
   width: window.innerWidth,
@@ -79,35 +79,34 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-const cameraParent = new THREE.Group()
-scene.add(cameraParent)
+const cameraParent = new THREE.Group();
+scene.add(cameraParent);
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height);
-camera.position.set(0, 1, 3)
-cameraParent.add(camera)
+camera.position.set(0, 1, 3);
+cameraParent.add(camera);
 
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-const tick = () =>
-{
+const tick = () => {
   if (center.x && center.y) {
     cameraParent.position.set(
       camera.position.x + center.x * 4,
       camera.position.y + center.y * 4
-    )
+    );
   }
 
-  controls.update()
+  controls.update();
 
   // Render
-  renderer.render(scene, camera)
+  renderer.render(scene, camera);
 
   // Call tick again on the next frame
-  window.requestAnimationFrame(tick)
-}
+  window.requestAnimationFrame(tick);
+};
 
-tick()
+tick();
